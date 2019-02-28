@@ -1,0 +1,194 @@
+[
+    {
+        "model": "Новая Granta седан",
+        "cheap": {
+            "title": "1.6 л 8-кл. (87 л.с.), 5МТ / Classic",
+            "price": "450500\nруб"
+        },
+        "expensive": {
+            "title": "1.6 л 8-кл. (87 л.с.), 5МТ / Classic",
+            "price": "450500\nруб"
+        },
+        "price_list": "https://www.lada.ru/cars/granta/sedan/print_prices.pdf"
+    },
+    {
+        "model": "Новая Granta лифтбек",
+        "cheap": {
+            "title": "1.6 л 8-кл. (87 л.с.), 5МТ / Classic",
+            "price": "465500\nруб"
+        },
+        "expensive": {
+            "title": "1.6 л 8-кл. (87 л.с.), 5МТ / Classic",
+            "price": "465500\nруб"
+        },
+        "price_list": "https://www.lada.ru/cars/granta/liftback/print_prices.pdf"
+    },
+    {
+        "model": "Новая Granta хэтчбек",
+        "cheap": {
+            "title": "1.6 л 8-кл. (87 л.с.), 5МТ / Classic",
+            "price": "465500\nруб"
+        },
+        "expensive": {
+            "title": "1.6 л 8-кл. (87 л.с.), 5МТ / Classic",
+            "price": "465500\nруб"
+        },
+        "price_list": "https://www.lada.ru/cars/granta/hatchback/print_prices.pdf"
+    },
+    {
+        "model": "Новая Granta универсал",
+        "cheap": {
+            "title": "1.6 л 8-кл. (87 л.с.), 5МТ / Classic",
+            "price": "475500\nруб"
+        },
+        "expensive": {
+            "title": "1.6 л 8-кл. (87 л.с.), 5МТ / Classic",
+            "price": "475500\nруб"
+        },
+        "price_list": "https://www.lada.ru/cars/granta/universal/print_prices.pdf"
+    },
+    {
+        "model": "Vesta седан",
+        "cheap": {
+            "title": "1.6 л 16-кл. (106 л.с.), 5МТ / Classic",
+            "price": "574900\nруб"
+        },
+        "expensive": {
+            "title": "1.6 л 16-кл. (106 л.с.), 5МТ / Classic",
+            "price": "574900\nруб"
+        },
+        "price_list": "https://www.lada.ru/cars/vesta/sedan/print_prices.pdf"
+    },
+    {
+        "model": "Vesta Cross",
+        "cheap": {
+            "title": "1.8 л 16-кл. (122 л.с.), 5МТ / Luxe",
+            "price": "778900\nруб"
+        },
+        "expensive": {
+            "title": "1.8 л 16-кл. (122 л.с.), 5МТ / Luxe",
+            "price": "778900\nруб"
+        },
+        "price_list": "https://www.lada.ru/cars/vesta/cross/print_prices.pdf"
+    },
+    {
+        "model": "Vesta SW",
+        "cheap": {
+            "title": "1.6 л 16-кл. (106 л.с.), 5МТ / Comfort",
+            "price": "664900\nруб"
+        },
+        "expensive": {
+            "title": "1.6 л 16-кл. (106 л.с.), 5МТ / Comfort",
+            "price": "664900\nруб"
+        },
+        "price_list": "https://www.lada.ru/cars/vesta/sw/print_prices.pdf"
+    },
+    {
+        "model": "Vesta SW Cross",
+        "cheap": {
+            "title": "1.8 л 16-кл. (122 л.с.), 5МТ / Comfort",
+            "price": "764900\nруб"
+        },
+        "expensive": {
+            "title": "1.8 л 16-кл. (122 л.с.), 5МТ / Comfort",
+            "price": "764900\nруб"
+        },
+        "price_list": "https://www.lada.ru/cars/vesta/sw-cross/print_prices.pdf"
+    },
+    {
+        "model": "Vesta CNG",
+        "cheap": {
+            "title": "1.6 л 16-кл. CNG, 5МТ / Comfort",
+            "price": "682900\nруб"
+        },
+        "expensive": {
+            "title": "1.6 л 16-кл. CNG, 5МТ / Comfort",
+            "price": "682900\nруб"
+        },
+        "price_list": "https://www.lada.ru/cars/vesta/cng/print_prices.pdf"
+    },
+    {
+        "model": "Vesta Sport",
+        "cheap": {
+            "title": "1.8 л 16-кл. (145 л.с.), 5МТ / Luxe / Multimedia",
+            "price": "1045900\nруб"
+        },
+        "expensive": {
+            "title": "1.8 л 16-кл. (145 л.с.), 5МТ / Luxe / Multimedia",
+            "price": "1045900\nруб"
+        },
+        "price_list": "https://www.lada.ru/cars/vesta/sport/print_prices.pdf"
+    },
+    {
+        "model": "XRAY ",
+        "cheap": {
+            "title": "1.6 л 16-кл. (106 л.с.), 5МТ / Classic",
+            "price": "599900\nруб"
+        },
+        "expensive": {
+            "title": "1.6 л 16-кл. (106 л.с.), 5МТ / Classic",
+            "price": "599900\nруб"
+        },
+        "price_list": "https://www.lada.ru/cars/xray/hatchback/print_prices.pdf"
+    },
+    {
+        "model": "XRAY Cross",
+        "cheap": {
+            "title": "1.8 л 16-кл. (122 л.с.), 5МТ / Classic / Optima",
+            "price": "741900\nруб"
+        },
+        "expensive": {
+            "title": "1.8 л 16-кл. (122 л.с.), 5МТ / Classic / Optima",
+            "price": "741900\nруб"
+        },
+        "price_list": "https://www.lada.ru/cars/xray/cross/print_prices.pdf"
+    },
+    {
+        "model": "Largus универсал",
+        "cheap": {
+            "title": "1.6 л 8-кл. (87 л.с.), 5МТ / Norma / 5мест Glonass",
+            "price": "572900\nруб"
+        },
+        "expensive": {
+            "title": "1.6 л 8-кл. (87 л.с.), 5МТ / Norma / 5мест Glonass",
+            "price": "572900\nруб"
+        },
+        "price_list": "https://www.lada.ru/cars/largus/universal/print_prices.pdf"
+    },
+    {
+        "model": "Largus Cross",
+        "cheap": {
+            "title": "1.6 л 16-кл. (106 л.с.), 5МТ / Luxe / 7 мест Glonass",
+            "price": "725900\nруб"
+        },
+        "expensive": {
+            "title": "1.6 л 16-кл. (106 л.с.), 5МТ / Luxe / 7 мест Glonass",
+            "price": "725900\nруб"
+        },
+        "price_list": "https://www.lada.ru/cars/largus/cross/print_prices.pdf"
+    },
+    {
+        "model": "Largus фургон",
+        "cheap": {
+            "title": "1.6 л 8-кл. (87 л.с.), 5МТ / Standard / Start Glonass",
+            "price": "575900\nруб"
+        },
+        "expensive": {
+            "title": "1.6 л 8-кл. (87 л.с.), 5МТ / Standard / Start Glonass",
+            "price": "575900\nруб"
+        },
+        "price_list": "https://www.lada.ru/cars/largus/furgon/print_prices.pdf"
+    },
+    {
+        "model": "4x4 3 дв.",
+        "cheap": {
+            "title": "1.7 л 8 кл. (83 л.с.), 5МТ / Luxe",
+            "price": "507900\nруб"
+        },
+        "expensive": {
+            "title": "1.7 л 8 кл. (83 л.с.), 5МТ / Luxe",
+            "price": "507900\nруб"
+        },
+        "price_list": "https://www.lada.ru/cars/4x4/3dv/print_prices.pdf"
+    }
+]
