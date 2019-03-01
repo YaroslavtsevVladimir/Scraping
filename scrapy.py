@@ -9,10 +9,11 @@ from lxml import html
 
 def load_data(addres):
     """
-
-    :param addres:
-    :return:
+    Load html page from url.
+    :param addres: some url
+    :return: <HTMLElement>
     """
+
     file_html = requests.get(addres).content.decode('utf8')
     tree = html.fromstring(file_html)
     return tree
@@ -20,11 +21,12 @@ def load_data(addres):
 
 def parse_html(filename, url):
     """
-
-    :param filename:
-    :param url:
-    :return:
+    Parsing <HTMLElement>.
+    :param filename: result of load_data(adress)
+    :param url: some url
+    :return: list without last 3 items
     """
+
     result = []
     car_div = filename.xpath('//div[@class="col-lg1-3 col-sm1-6 mb-sm1-5 mb-xs-5"]')[0]
     car_ul = car_div.xpath('./ul[@class="list-unstyled"]')
@@ -39,10 +41,12 @@ def parse_html(filename, url):
 
 def find_car(links):
     """
-
-    :param links:
-    :return:
+    Find the cheapest and most expensive car
+    for each model and price list.
+    :param links: result of parse_html(filename, url)
+    :return: list with nested dict for each model
     """
+
     result_list = []
 
     try:
@@ -74,13 +78,15 @@ def find_car(links):
 
 def get_json(listing):
     """
-
-    :param listing:
-    :return:
+    Get result of find_car(links) in json format.
+    :param listing: result of find_car(links)
+    :return: file data_json.json
     """
-    with open('data_json', 'w') as result_file:
-        # return json.dumps(listing, indent=4)
-        return json.dump(listing, result_file, ensure_ascii=False, indent=4)
+
+    with open('data_json.json', 'w') as result_file:
+        # data = json.dumps(listing, ensure_ascii=False, indent=4)
+        data = json.dump(listing, result_file, ensure_ascii=False, indent=4)
+        return data
 
 
 if __name__ == '__main__':
