@@ -123,11 +123,11 @@
         "model": "XRAY ",
         "cheap": {
             "title": "1.6 л 16-кл. (106 л.с.), 5ћ“ / Standard",
-            "price": "559900 руб"
+            "price": "0 руб"
         },
         "expensive": {
-            "title": "1.8 л 16-кл. (122 л.с.), 5јћ“ / Luxe / Prestige",
-            "price": "792900 руб"
+            "title": "1.6 л 16-кл. (106 л.с.), 5ћ“ / Comfort",
+            "price": "657900 руб"
         },
         "price_list": "https://www.lada.ru/cars/xray/hatchback/print_prices.pdf"
     },

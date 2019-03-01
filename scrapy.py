@@ -87,10 +87,18 @@ def get_json(listing):
         return json.dump(listing, result_file, ensure_ascii=False, indent=4)
 
 
-if __name__ == '__main__':
-
-    url = 'https://www.lada.ru'
+def main():
+    """
+    main
+    :return: None
+    """
     f = load_data(url)
     parser = parse_html(f, url)
     res = find_car(parser)
     get_json(res)
+
+
+if __name__ == '__main__':
+
+    url = 'https://www.lada.ru'
+    main()
