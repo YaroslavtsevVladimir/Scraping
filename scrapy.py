@@ -1,4 +1,5 @@
 #!
+
 """Web scraping."""
 
 import json
@@ -49,16 +50,16 @@ def find_car(links):
             link = load_data(link)
 
             header = link.xpath('//h1[@id="text17"]/text()')
-            car_name = [link.xpath('//div[@style="float:left;"]/p/text()')[i] for i in (-1, 1)]
-            car_price = [link.xpath('//p[@class="kompl_price"][1]/text()')[i] for i in (-1, 1)]
+            car_name = [link.xpath('//div[@style="float:left;"]/p/text()')[i] for i in (-1, 0)]
+            car_price = [link.xpath('//p[@class="kompl_price"][1]/text()')[i] for i in (-1, 0)]
             price_list = link.xpath('//a[@id="all_compl"]/@href')
             price_pdf = ('%s%s' % (url, price_list[0]))
 
             cheap = {'title': car_name[-1],
-                     'price': car_price[-1].replace(' ', '').replace('\\n', '')}
+                     'price': car_price[-1].replace(' ', '').replace('\n', ' ')}
 
-            expensive = {'title': car_name[1],
-                         'price': car_price[1].replace(' ', '').replace('\\n', '')}
+            expensive = {'title': car_name[0],
+                         'price': car_price[0].replace(' ', '').replace('\n', ' ')}
 
             dict_car = {'model': header[0].replace('\xa0\n', '').replace('   ', ''),
                         'cheap': cheap,
