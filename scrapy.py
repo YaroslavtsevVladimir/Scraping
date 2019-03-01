@@ -14,22 +14,22 @@ def load_data(addres):
     :return: <HTMLElement>
     """
 
-    file_html = requests.get(addres).content.decode('utf8')
-    tree = html.fromstring(file_html)
+    page_html = requests.get(addres).content.decode('utf8')
+    tree = html.fromstring(page_html)
     return tree
 
 
-def parse_html(filename, url):
+def parse_html(filename):
     """
     Parsing <HTMLElement>.
     :param filename: result of load_data(adress)
-    :param url: some url
     :return: list without last 3 items
     """
 
     result = []
 
-    car_div = filename.xpath('//body//div[@class="cars-menu__wrapper clearfix"]//'
+    car_div = filename.xpath('//body//'
+                             'div[@class="cars-menu__wrapper clearfix"]//'
                              'div[@class="cars-menu__sem clearfix"]')[:-2]
 
     for div in car_div:
@@ -56,7 +56,9 @@ def find_car(links):
 
         header = link.xpath('//h1[@id="text17"]/text()')
         car_name = [link.xpath('//div[@style="float:left;"]/p/text()')[i] for i in (-1, 0)]
-        car_price = [link.xpath('//p[@class="kompl_price"][1]/text()')[i] for i in (-1, 0)]
+        car_price = [link.xpath('//div[@style="float:right;"]//'
+                                'div[@class="old_new_price"]/p/text()')[i] for i in (-1, 1)]
+
         price_list = link.xpath('//a[@id="all_compl"]/@href')
         price_pdf = ('%s%s' % (url, price_list[0]))
 
@@ -92,8 +94,8 @@ def main():
     main
     :return: None
     """
-    f = load_data(url)
-    parser = parse_html(f, url)
+    file_html = load_data(url)
+    parser = parse_html(file_html)
     res = find_car(parser)
     get_json(res)
 
