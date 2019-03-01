@@ -85,8 +85,8 @@ def get_json(listing):
 
     with open('data_json.json', 'w') as result_file:
         # data = json.dumps(listing, ensure_ascii=False, indent=4)
-        data = json.dump(listing, result_file, ensure_ascii=False, indent=4)
-        return data
+        return json.dump(listing, result_file, ensure_ascii=False, indent=4)
+
 
 
 if __name__ == '__main__':
