@@ -28,15 +28,18 @@ def parse_html(filename, url):
     """
 
     result = []
-    car_div = filename.xpath('//div[@class="col-lg1-3 col-sm1-6 mb-sm1-5 mb-xs-5"]')[0]
-    car_ul = car_div.xpath('./ul[@class="list-unstyled"]')
+    # car_div = filename.xpath('//body//footer//div[@class="col-lg1-3 col-sm1-6 mb-sm1-5 mb-xs-5"]')[0]
+    car_div = filename.xpath('//body//div[@class="cars-menu__wrapper clearfix"]//'
+                             'div[@class="cars-menu__sem clearfix"]')[:-2]
+    # car_ul = car_div.xpath('./ul[@class="list-unstyled"]')
+    for div in car_div:
+        car_a = div.xpath('./a[@class="cars-menu__base-name menu_models_a"]/@href')
+        for ref in car_a:
 
-    for li in car_ul:
-        for i in li:
-            link = i.xpath('./a/@href')
-            result.append('%s%s' % (url, link[0]))
+            result.append('%s%s' % (url, ref))
 
-    return result[:-3]
+    print(result)
+    return result
 
 
 def find_car(links):
@@ -49,30 +52,30 @@ def find_car(links):
 
     result_list = []
 
-    try:
-        for link in links:
-            link = load_data(link)
+    # try:
+    for link in links:
+        link = load_data(link)
 
-            header = link.xpath('//h1[@id="text17"]/text()')
-            car_name = [link.xpath('//div[@style="float:left;"]/p/text()')[i] for i in (-1, 0)]
-            car_price = [link.xpath('//p[@class="kompl_price"][1]/text()')[i] for i in (-1, 0)]
-            price_list = link.xpath('//a[@id="all_compl"]/@href')
-            price_pdf = ('%s%s' % (url, price_list[0]))
+        header = link.xpath('//h1[@id="text17"]/text()')
+        car_name = [link.xpath('//div[@style="float:left;"]/p/text()')[i] for i in (-1, 0)]
+        car_price = [link.xpath('//p[@class="kompl_price"][1]/text()')[i] for i in (-1, 0)]
+        price_list = link.xpath('//a[@id="all_compl"]/@href')
+        price_pdf = ('%s%s' % (url, price_list[0]))
 
-            cheap = {'title': car_name[-1],
-                     'price': car_price[-1].replace(' ', '').replace('\n', ' ')}
+        cheap = {'title': car_name[-1],
+                 'price': car_price[-1].replace(' ', '').replace('\n', ' ')}
 
-            expensive = {'title': car_name[0],
-                         'price': car_price[0].replace(' ', '').replace('\n', ' ')}
+        expensive = {'title': car_name[0],
+                     'price': car_price[0].replace(' ', '').replace('\n', ' ')}
 
-            dict_car = {'model': header[0].replace('\xa0\n', '').replace('   ', ''),
-                        'cheap': cheap,
-                        'expensive': expensive,
-                        'price_list': price_pdf}
+        dict_car = {'model': header[0].replace('\xa0\n', '').replace('   ', ''),
+                    'cheap': cheap,
+                    'expensive': expensive,
+                    'price_list': price_pdf}
 
-            result_list.append(dict_car)
-    except:
-        pass
+        result_list.append(dict_car)
+    # except:
+    #     pass
     return result_list
 
 
@@ -84,9 +87,7 @@ def get_json(listing):
     """
 
     with open('data_json.json', 'w') as result_file:
-        # data = json.dumps(listing, ensure_ascii=False, indent=4)
         return json.dump(listing, result_file, ensure_ascii=False, indent=4)
-
 
 
 if __name__ == '__main__':
