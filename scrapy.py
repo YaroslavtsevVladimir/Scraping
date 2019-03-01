@@ -28,17 +28,16 @@ def parse_html(filename, url):
     """
 
     result = []
-    # car_div = filename.xpath('//body//footer//div[@class="col-lg1-3 col-sm1-6 mb-sm1-5 mb-xs-5"]')[0]
+
     car_div = filename.xpath('//body//div[@class="cars-menu__wrapper clearfix"]//'
                              'div[@class="cars-menu__sem clearfix"]')[:-2]
-    # car_ul = car_div.xpath('./ul[@class="list-unstyled"]')
+
     for div in car_div:
         car_a = div.xpath('./a[@class="cars-menu__base-name menu_models_a"]/@href')
         for ref in car_a:
 
             result.append('%s%s' % (url, ref))
 
-    print(result)
     return result
 
 
@@ -52,7 +51,6 @@ def find_car(links):
 
     result_list = []
 
-    # try:
     for link in links:
         link = load_data(link)
 
@@ -74,8 +72,7 @@ def find_car(links):
                     'price_list': price_pdf}
 
         result_list.append(dict_car)
-    # except:
-    #     pass
+
     return result_list
 
 
