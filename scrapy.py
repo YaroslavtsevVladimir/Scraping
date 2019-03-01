@@ -28,11 +28,11 @@ def parse_html(filename):
 
     result = []
 
-    car_div = filename.xpath('//body//'
-                             'div[@class="cars-menu__wrapper clearfix"]//'
-                             'div[@class="cars-menu__sem clearfix"]')[:-2]
+    parse_div = filename.xpath('//body//'
+                               'div[@class="cars-menu__wrapper clearfix"]//'
+                               'div[@class="cars-menu__sem clearfix"]')[:-2]
 
-    for div in car_div:
+    for div in parse_div:
         car_a = div.xpath('./a[@class="cars-menu__base-name menu_models_a"]/@href')
         for ref in car_a:
 
@@ -41,7 +41,7 @@ def parse_html(filename):
     return result
 
 
-def find_car(links):
+def get_model_list(links):
     """
     Find the cheapest and most expensive car
     for each model and price list.
@@ -55,25 +55,20 @@ def find_car(links):
         link = load_data(link)
 
         header = link.xpath('//h1[@id="text17"]/text()')
-        car_name = [link.xpath('//div[@style="float:left;"]/p/text()')[i] for i in (-1, 0)]
-        car_price = [link.xpath('//div[@style="float:right;"]//'
+        car_name = [link.xpath('//body//div[@style="float:left;"]/p/text()')[i] for i in (-1, 0)]
+        car_price = [link.xpath('//body//div[@style="float:right;"]//'
                                 'div[@class="old_new_price"]/p/text()')[i] for i in (-1, 1)]
-
         price_list = link.xpath('//a[@id="all_compl"]/@href')
         price_pdf = ('%s%s' % (url, price_list[0]))
 
-        cheap = {'title': car_name[-1],
-                 'price': car_price[-1].replace(' ', '').replace('\n', ' ')}
+        dict_model = {'model': header[0].replace('\xa0\n', '').replace('   ', ''),
+                      'cheap': {'title': car_name[-1],
+                                'price': car_price[-1].replace(' ', '').replace('\n', '')},
+                      'expensive': {'title': car_name[0],
+                                    'price': car_price[0].replace(' ', '').replace('\n', '')},
+                      'price_list': price_pdf}
 
-        expensive = {'title': car_name[0],
-                     'price': car_price[0].replace(' ', '').replace('\n', ' ')}
-
-        dict_car = {'model': header[0].replace('\xa0\n', '').replace('   ', ''),
-                    'cheap': cheap,
-                    'expensive': expensive,
-                    'price_list': price_pdf}
-
-        result_list.append(dict_car)
+        result_list.append(dict_model)
 
     return result_list
 
@@ -96,7 +91,7 @@ def main():
     """
     file_html = load_data(url)
     parser = parse_html(file_html)
-    res = find_car(parser)
+    res = get_model_list(parser)
     get_json(res)
 
 
