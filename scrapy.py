@@ -1,6 +1,6 @@
 #!
 
-"""Web scraping."""
+""" Web scraping."""
 
 import json
 import requests
@@ -23,53 +23,46 @@ def parse_html(filename):
     """
     Parsing <HTMLElement>.
     :param filename: result of load_data(adress)
-    :return: list without last 3 items
+    :return: list with links
     """
 
-    result = []
-
-    parse_div = filename.xpath('//body//'
-                               'div[@class="cars-menu__wrapper clearfix"]//'
-                               'div[@class="cars-menu__sem clearfix"]')[:-2]
-
+    parse_result = []
+    parse_div = filename.xpath('./body/div[contains(@class, "cars-menu")]/'
+                               'div[contains(@class, "cars-menu__wrapper")]//'
+                               'div[contains(@class, "cars-menu__sem ")]')[:-2]
     for div in parse_div:
-        car_a = div.xpath('./a[@class="cars-menu__base-name menu_models_a"]/@href')
-        for ref in car_a:
-
-            result.append('%s%s' % (url, ref))
-
-    return result
+        car_a = div.xpath('./a[contains(@class, "menu_models_a")]/@href')
+        car_name = div.xpath('./a[contains(@class, "menu_models_a")]/text()')
+        for a, n in zip(car_a, car_name):
+            parse_result.append((url + a, n))
+    return parse_result
 
 
 def get_model_list(links):
     """
     Find the cheapest and most expensive car
     for each model and price list.
-    :param links: result of parse_html(filename, url)
+    :param links: result of parse_html(filename)
     :return: list with nested dict for each model
     """
 
     result_list = []
-
     for link in links:
-        link = load_data(link)
+        link_html = load_data(link[0])
+        car_name = [link_html.xpath('./body//div[@style="float:left;"]/p/text()')[i] for i in (-1, 0)]
 
-        header = link.xpath('//h1[@id="text17"]/text()')
-        car_name = [link.xpath('//body//div[@style="float:left;"]/p/text()')[i] for i in (-1, 0)]
-        car_price = [link.xpath('//body//div[@style="float:right;"]//'
-                                'div[@class="old_new_price"]/p/text()')[i] for i in (-1, 1)]
-        price_list = link.xpath('//a[@id="all_compl"]/@href')
-        price_pdf = ('%s%s' % (url, price_list[0]))
+        car_price = [link_html.xpath('./body/div[@id="primaryContainer"]//'
+                                'div[@id="configurator"]/div[@itemprop="offers"]/@price')[i] for i in (-1, 0)]
+        price_list = link_html.xpath('//a[@id="all_compl"]/@href')
+        price_pdf = url + price_list[0]
 
-        dict_model = {'model': header[0].replace('\xa0\n', '').replace('   ', ''),
+        dict_model = {'model': link[1],
                       'cheap': {'title': car_name[-1],
-                                'price': car_price[-1].replace(' ', '').replace('\n', '')},
+                                'price': car_price[-1]},
                       'expensive': {'title': car_name[0],
-                                    'price': car_price[0].replace(' ', '').replace('\n', '')},
+                                    'price': car_price[0]},
                       'price_list': price_pdf}
-
         result_list.append(dict_model)
-
     return result_list
 
 
@@ -85,17 +78,13 @@ def get_json(listing):
 
 
 def main():
-    """
-    main
-    :return: None
-    """
     file_html = load_data(url)
     parser = parse_html(file_html)
-    res = get_model_list(parser)
-    get_json(res)
+    result = get_model_list(parser)
+    get_json(result)
 
 
 if __name__ == '__main__':
-
     url = 'https://www.lada.ru'
     main()
+
