@@ -23,7 +23,7 @@ def parse_html(filename):
     """
     Parsing <HTMLElement>.
     :param filename: result of load_data(adress)
-    :return: list with links
+    :return: list with nested tuples (ref, text)
     """
 
     parse_result = []
@@ -31,10 +31,11 @@ def parse_html(filename):
                                'div[contains(@class, "cars-menu__wrapper")]//'
                                'div[contains(@class, "cars-menu__sem ")]')[:-2]
     for div in parse_div:
-        car_a = div.xpath('./a[contains(@class, "menu_models_a")]/@href')
-        car_name = div.xpath('./a[contains(@class, "menu_models_a")]/text()')
-        for a, n in zip(car_a, car_name):
-            parse_result.append((url + a, n))
+        car_a = div.xpath('./a[contains(@class, "menu_models_a")]')
+        for a in car_a:
+            ref = a.xpath('./@href')
+            txt = a.xpath('./text()')
+            parse_result.append((url + ref[0], txt[0]))
     return parse_result
 
 
@@ -52,10 +53,10 @@ def get_model_list(links):
         car_name = [link_html.xpath('./body//div[@style="float:left;"]/p/text()')[i] for i in (-1, 0)]
 
         car_price = [link_html.xpath('./body/div[@id="primaryContainer"]//'
-                                'div[@id="configurator"]/div[@itemprop="offers"]/@price')[i] for i in (-1, 0)]
+                                     'div[@id="configurator"]/div[@itemprop="offers"]'
+                                     '/@price')[i] for i in (-1, 0)]
         price_list = link_html.xpath('//a[@id="all_compl"]/@href')
         price_pdf = url + price_list[0]
-
         dict_model = {'model': link[1],
                       'cheap': {'title': car_name[-1],
                                 'price': car_price[-1]},
@@ -63,25 +64,13 @@ def get_model_list(links):
                                     'price': car_price[0]},
                       'price_list': price_pdf}
         result_list.append(dict_model)
-    return result_list
-
-
-def get_json(listing):
-    """
-    Get result of find_car(links) in json format.
-    :param listing: result of find_car(links)
-    :return: file data_json.json
-    """
-
-    with open('data_json.json', 'w') as result_file:
-        return json.dump(listing, result_file, ensure_ascii=False, indent=4)
+    return json.dumps(result_list, ensure_ascii=False, indent=4)
 
 
 def main():
     file_html = load_data(url)
     parser = parse_html(file_html)
-    result = get_model_list(parser)
-    get_json(result)
+    print(get_model_list(parser))
 
 
 if __name__ == '__main__':
