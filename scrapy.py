@@ -70,10 +70,9 @@ def get_model_list(links):
 def main():
     file_html = load_data(url)
     parser = parse_html(file_html)
-    print(get_model_list(parser))
+    get_model_list(parser)
 
 
 if __name__ == '__main__':
     url = 'https://www.lada.ru'
     main()
-
