@@ -39,28 +39,28 @@ def parse_html(filename):
     return parse_result
 
 
-def get_model_list(links):
+def get_model_list(models):
     """
     Find the cheapest and most expensive car
-    for each model and price list.
-    :param links: result of parse_html(filename)
+    and price list for each model.
+    :param models: result of parse_html(filename)
     :return: list with nested dict for each model
     """
 
     result_list = []
-    for link in links:
-        link_html = load_data(link[0])
-        car_name = [link_html.xpath('./body//div[@style="float:left;"]/p/text()')[i] for i in (-1, 0)]
-
-        car_price = [link_html.xpath('./body/div[@id="primaryContainer"]//'
-                                     'div[@id="configurator"]/div[@itemprop="offers"]'
-                                     '/@price')[i] for i in (-1, 0)]
+    for model in models:
+        link_html = load_data(model[0])
+        complect_colon = link_html.xpath('./body//div[@style="float:left;"]')[0]
+        car_complect = [complect_colon.xpath('./p/text()')[i] for i in (-1, 0)]
+        price_colon = link_html.xpath('./body/div[@id="primaryContainer"]//'
+                                      'div[@id="configurator"]')[0]
+        car_price = [price_colon.xpath('./div[@itemprop="offers"]/@price')[i] for i in (-1, 0)]
         price_list = link_html.xpath('//a[@id="all_compl"]/@href')
         price_pdf = url + price_list[0]
-        dict_model = {'model': link[1],
-                      'cheap': {'title': car_name[-1],
+        dict_model = {'model': model[1],
+                      'cheap': {'title': car_complect[-1],
                                 'price': car_price[-1]},
-                      'expensive': {'title': car_name[0],
+                      'expensive': {'title': car_complect[0],
                                     'price': car_price[0]},
                       'price_list': price_pdf}
         result_list.append(dict_model)
