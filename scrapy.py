@@ -1,6 +1,6 @@
 #!
 
-"""Web scraping."""
+""" Web scraping."""
 
 import json
 import requests
@@ -23,74 +23,56 @@ def parse_html(filename):
     """
     Parsing <HTMLElement>.
     :param filename: result of load_data(adress)
-    :return: list without last 3 items
+    :return: list with nested tuples (ref, text)
     """
 
-    result = []
-
-    parse_div = filename.xpath('//body//'
-                               'div[@class="cars-menu__wrapper clearfix"]//'
-                               'div[@class="cars-menu__sem clearfix"]')[:-2]
-
+    parse_result = []
+    parse_div = filename.xpath('./body/div[contains(@class, "cars-menu")]/'
+                               'div[contains(@class, "cars-menu__wrapper")]//'
+                               'div[contains(@class, "cars-menu__sem ")]')[:-2]
     for div in parse_div:
-        car_a = div.xpath('./a[@class="cars-menu__base-name menu_models_a"]/@href')
-        for ref in car_a:
-            result.append('%s%s' % (url, ref))
+        car_a = div.xpath('./a[contains(@class, "menu_models_a")]')
+        for a in car_a:
+            ref = a.xpath('./@href')
+            txt = a.xpath('./text()')
+            parse_result.append((url + ref[0], txt[0]))
+    return parse_result
 
-    return result
 
-
-def get_model_list(links):
+def get_model_list(models):
     """
     Find the cheapest and most expensive car
-    for each model and price list.
-    :param links: result of parse_html(filename, url)
+    and price list for each model.
+    :param models: result of parse_html(filename)
     :return: list with nested dict for each model
     """
 
     result_list = []
-
-    for link in links:
-        link = load_data(link)
-
-        header = link.xpath('//h1[@id="text17"]/text()')
-        car_name = [link.xpath('//body//div[@style="float:left;"]/p/text()')[i] for i in (-1, 0)]
-        car_price = [link.xpath('//body//div[@style="float:right;"]//'
-                                'div[@class="old_new_price"]/p/text()')[i] for i in (-1, 1)]
-        price_list = link.xpath('//a[@id="all_compl"]/@href')
-        price_pdf = ('%s%s' % (url, price_list[0]))
-
-        dict_model = {'model': header[0].replace('\xa0\n', '').replace('   ', ''),
-                      'cheap': {'title': car_name[-1],
-                                'price': car_price[-1].replace(' ', '').replace('\n', '')},
-                      'expensive': {'title': car_name[0],
-                                    'price': car_price[0].replace(' ', '').replace('\n', '')},
+    for model in models:
+        link_html = load_data(model[0])
+        complect_colon = link_html.xpath('./body//div[@style="float:left;"]')[0]
+        car_complect = [complect_colon.xpath('./p/text()')[i] for i in (-1, 0)]
+        price_colon = link_html.xpath('./body/div[@id="primaryContainer"]//'
+                                      'div[@id="configurator"]')[0]
+        car_price = [price_colon.xpath('./div[@itemprop="offers"]/@price')[i] for i in (-1, 0)]
+        price_list = link_html.xpath('//a[@id="all_compl"]/@href')
+        price_pdf = url + price_list[0]
+        dict_model = {'model': model[1],
+                      'cheap': {'title': car_complect[-1],
+                                'price': car_price[-1]},
+                      'expensive': {'title': car_complect[0],
+                                    'price': car_price[0]},
                       'price_list': price_pdf}
-
         result_list.append(dict_model)
-
-    return result_list
-
-
-def get_json(listing):
-    """
-    Get result of find_car(links) in json format.
-    :param listing: result of find_car(links)
-    :return: file data_json.json
-    """
-
-    with open('data_json.json', 'w') as result_file:
-        return json.dump(listing, result_file, ensure_ascii=False, indent=4)
+    return json.dumps(result_list, ensure_ascii=False, indent=4)
 
 
 def main():
     file_html = load_data(url)
     parser = parse_html(file_html)
-    res = get_model_list(parser)
-    get_json(res)
+    get_model_list(parser)
 
 
 if __name__ == '__main__':
-
     url = 'https://www.lada.ru'
     main()
