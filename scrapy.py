@@ -35,7 +35,6 @@ def parse_html(filename):
     for div in parse_div:
         car_a = div.xpath('./a[@class="cars-menu__base-name menu_models_a"]/@href')
         for ref in car_a:
-
             result.append('%s%s' % (url, ref))
 
     return result
@@ -85,10 +84,6 @@ def get_json(listing):
 
 
 def main():
-    """
-    main
-    :return: None
-    """
     file_html = load_data(url)
     parser = parse_html(file_html)
     res = get_model_list(parser)
