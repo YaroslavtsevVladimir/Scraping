@@ -50,10 +50,10 @@ def get_model_list(models):
     result_list = []
     for model in models:
         link_html = load_data(model[0])
-        complect_colon = link_html.xpath('./body/div[@id="primaryContainer"]//'
-                                         'div[@id="configurator"]')[0]
-        car_complect = [complect_colon.xpath('.//div[@style="float:left;"]/p/text()')[i] for i in (-1, 0)]
-        car_price = [complect_colon.xpath('./div[@itemprop="offers"]/@price')[i] for i in (-1, 0)]
+        complect_column = link_html.xpath('./body/div[@id="primaryContainer"]//'
+                                          'div[@id="configurator"]')[0]
+        car_complect = [complect_column.xpath('.//div[@style="float:left;"]/p/text()')[i] for i in (-1, 0)]
+        car_price = [complect_column.xpath('./div[@itemprop="offers"]/@price')[i] for i in (-1, 0)]
         price_list = link_html.xpath('//a[@id="all_compl"]/@href')
         price_pdf = url + price_list[0]
         dict_model = {'model': model[1],
