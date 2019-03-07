@@ -7,14 +7,14 @@ import requests
 from lxml import html
 
 
-def load_data(addres):
+def load_data(address):
     """
     Load html page from url.
-    :param addres: some url
+    :param address: some url
     :return: <HTMLElement>
     """
 
-    page_html = requests.get(addres).content.decode('utf8')
+    page_html = requests.get(address).content.decode('utf8')
     tree = html.fromstring(page_html)
     return tree
 
@@ -22,7 +22,7 @@ def load_data(addres):
 def parse_html(filename):
     """
     Parsing <HTMLElement>.
-    :param filename: result of load_data(adress)
+    :param filename: result of load_data(address)
     :return: list with nested tuples (ref, text)
     """
 
@@ -50,16 +50,18 @@ def get_model_list(models):
     result_list = []
     for model in models:
         link_html = load_data(model[0])
-        complect_column = link_html.xpath('./body/div[@id="primaryContainer"]//'
-                                          'div[@id="configurator"]')[0]
-        car_complect = [complect_column.xpath('.//div[@style="float:left;"]/p/text()')[i] for i in (-1, 0)]
-        car_price = [complect_column.xpath('./div[@itemprop="offers"]/@price')[i] for i in (-1, 0)]
+        equip_column = link_html.xpath('./body/div[@id="primaryContainer"]//'
+                                       'div[@id="configurator"]')[0]
+        car_equip = [equip_column.xpath('.//div[@style="float:left;"]/'
+                                        'p/text()')[i] for i in (-1, 0)]
+        car_price = [equip_column.xpath('./div[@itemprop="offers"]/@price')[i]
+                     for i in (-1, 0)]
         price_list = link_html.xpath('//a[@id="all_compl"]/@href')
         price_pdf = url + price_list[0]
         dict_model = {'model': model[1],
-                      'cheap': {'title': car_complect[-1],
+                      'cheap': {'title': car_equip[-1],
                                 'price': car_price[-1]},
-                      'expensive': {'title': car_complect[0],
+                      'expensive': {'title': car_equip[0],
                                     'price': car_price[0]},
                       'price_list': price_pdf}
         result_list.append(dict_model)
